@@ -6,14 +6,19 @@ import java.util.List;
 
 @RestController
 public class BookProxyController {
-    private final BookServiceClient bookServiceClient;
+    private final BookServiceProxy bookServiceProxy;
 
-    public BookProxyController(BookServiceClient bookServiceClient) {
-        this.bookServiceClient = bookServiceClient;
+    public BookProxyController(BookServiceProxy bookServiceProxy) {
+        this.bookServiceProxy = bookServiceProxy;
     }
 
     @GetMapping("/proxy/books")
     public List<Object> proxyBooks() {
-        return bookServiceClient.getBooks();
+        try {
+            return bookServiceProxy.getBooks();
+        } catch (Exception e) {
+            System.out.println("Manual fallback triggered! Exception: " + e);
+            return List.of("Manual fallback: Book service unavailable");
+        }
     }
 }
