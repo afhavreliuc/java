@@ -16,8 +16,8 @@ public class SecurityConfig {
     public UserDetailsService userDetailsService() {
         return new InMemoryUserDetailsManager(
             User.withUsername("user")
-                .password("{noop}password") // {noop} = fără encoder, doar pentru test!
-                .roles("USER")
+                .password("{noop}password")
+                .roles("USER") // <-- adaugă rolul!
                 .build()
         );
     }
